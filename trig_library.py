@@ -17,21 +17,29 @@ def ninaSine(x):
     sinx = 0 #this will be the taylor sum with i terms added.
     userErr = 1 #change this to user input when code is working
     fracErr = userErr + 1 #ensures while loop will start
-#    while fracErr > userErr:
-    while i <=10:
+    #sinx is not being expanded past i = 1
+def ninaSine(x):
+    i = 0
+    sinx = 0 #this will be the taylor sum with i terms added.
+    userErr = 1 #change this to user input when code is working
+    fracErr = userErr + 1 #ensures while loop will start
+    
+    while fracErr > userErr:
         iTerm = (-1)**i * x**(2*i + 1) / ninaFactorial(2*i + 1) #calculate ith term (starting with i = 0)
         sinx += iTerm #add ith term to sinx
-        if sinx == 0:
-            fracErr = 0 #ask Dan if this is appropriate; what else to do for frac error calculation if sinx = 0
+        if sinx <= 1e-7 and sinx >= -1e-7: #set high fractional error to break loop. This allows function not to break at multiples of 2pi
+            fracErr = 100
         else:
-            fracErr = abs(iTerm/sinx) #difference between terms/function output
+            fracErr = abs(iTerm/sinx)
+        if fracErr >= 100: #set high fractional error to break loop. This allows function not to break at multiples of 2pi
+            break
         i += 1
     return sinx, fracErr
 
 
 #create list of values to test sine function
 #xvals = [0,pi/2,pi,3*pi/2,2*pi]
-xvals = np.linspace(0,2*pi,num=10,endpoint=False) #True)
+xvals = np.linspace(0,2*pi,num=100,endpoint=False) #True)
 
 sineWave = [] #list of sine function outputs to plot
 error = []
