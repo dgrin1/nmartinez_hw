@@ -2,6 +2,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from math import pi
 
+#sk user for desired fractional error for sine calculation
+inputErr = float(input("Desired fractional error:"))
+
 #return sine of given x
 def ninaFactorial(n):
     factorial = 1
@@ -10,12 +13,11 @@ def ninaFactorial(n):
         n -= 1
     if n == 0:
         return factorial
-#still need to debug
 
 def ninaSine(x):
     i = 0
     sinx = 0 #this will be the taylor sum with i terms added.
-    userErr = 0.01 #change this to user input when code is working
+    userErr = inputErr
     fracErr = userErr + 1 #ensures while loop will start
 
     while fracErr > userErr: #if fractional error is greater than user error, continue with taylor series expansion
@@ -32,22 +34,7 @@ def ninaSine(x):
         i += 1
     return sinx, fracErr
 
-#incorporate error calculation once debugged with sine
-def ninaCosine(x):
-    i = 0
-    cosx = 0 #this will be the taylor sum with i terms added.
-    while i <= 9:
-        iTerm = (-1)**i * x**(2*i) / ninaFactorial(2*i) #calculate ith term (starting with i = 0)
-        cosx += iTerm #add ith term to sinx
-        i += 1
-    return cosx
-
-def ninaTangent(x):
-    tanx = ninaSine(x) / ninaCosine(x)
-    return tanx
-
 #create list of values to test sine function
-#xvals = [0,pi/2,pi,3*pi/2,2*pi]
 xvals = np.linspace(0,5*2*pi,num=5000,endpoint=True) #calculate sinx over 5 periods
 
 sineWave = [] #list of sine function outputs to plot
@@ -57,14 +44,19 @@ for i in xvals:
     sineWave.append(a)
     error.append(b)
 
-print(sineWave)
-wave = plt.plot(xvals,sineWave,"k")
-err = plt.plot(xvals,error, "r")
+#set latex font
+plt.rc('text',usetex=True)
+plt.rc('font', **{'family':'sans-serif','sans-serif':['Helvetica']})
 
-#plot title
-plt.title("Sine Wave")
-#axis labels
-plt.xlabel("x")
-plt.ylabel("sin(x)")
-#Make plot
+#make plot of cosine wave
+wave = plt.plot(xvals, sineWave, 'k', lw=3, label=r'$sin(x)$') 
+err = plt.plot(xvals,error, 'r', label=r'Fractional Error')
+
+#labels in latex
+plt.xlabel(r'$x$', fontsize=16)
+
+#labels in latex
+plt.legend(loc=1)
+
+#show plot
 plt.show()
