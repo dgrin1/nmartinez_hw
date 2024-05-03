@@ -3,7 +3,7 @@
 from math import sqrt
 import matplotlib.pyplot as plt
 
-r = 1 #radius of each atom
+r = 1/2 #radius of each atom. This gives us same atom size as for simple cubic lattice
 a = (4*r)/sqrt(3) #length of unit cell side. Because body diagonal = diameter of cl ion + diameter cs ion
 x = range(11)
 Mlist = []
